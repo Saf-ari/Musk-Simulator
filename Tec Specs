@@ -1,0 +1,31 @@
+Tech Specs:
+Start of game shows Title and quick selection between single player and multiplayer modes
+Objects:
+
+1. Rocket ship:
+  - integer of fuel: starting fuel is 1000
+  - controls:
+      - keyboard:
+          Up Arrow and down arrow:
+              - if fuel isn't zero, the the arrow keys work
+              - thruster that moves ship in the direction
+              - every second key is pressed, fuel constantly falls by 1, for a total of -10fuel/second
+2. platform
+   - randomly generates as a rectangle with a random size at a point coming from the bottom of the canvas
+   - if rocket lands with any horizontal velocity or over a small vertical velocity or at an angle that isn't perpendicular to the platform, rocket ship breaks.
+3. Fuel gage
+   - in the upper right hand corner, that shows the fuel amount as previously stated
+   - a small rectangle
+   - fuel resets only when the game resets but stays as long as there continue to be successful landings
+4. score
+   - Upper left hand corner is the score in a rectangular box, which is how many platforms have successfully been landed on
+   - each time there is a successful landing, the score increases by 1
+
+Game reset:
+   - if the fuel gets to 0, and then the ship breaks / misses platform, then game is over
+        - the fuel gets reset, the score gets reset to 0 in the next game
+Multiplayer:
+ - a second rocket ship randomly generated
+ - a second score for player2 is to the right of player1's score box
+ What does random velocity have to do with game?
+ - winner is determined by who lands more time, (How will one players game platform be updated but the other one's stays?)
