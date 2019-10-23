@@ -17,7 +17,9 @@ var ROCKET1 = {
   xvel : 0,
   xacc : 0,
   yvel : 0,
-  yacc : 0
+  yacc : 0,
+  rot : 90,
+  power : 5
 };
 var ROCKET2 = {
   x : 0,
@@ -28,5 +30,7 @@ var ROCKET2 = {
   xvel : 0,
   xacc : 0,
   yvel : 0,
-  yacc : 0
+  yacc : 0,
+  rot : 90,
+  power : 5
 };

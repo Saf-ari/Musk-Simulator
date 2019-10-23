@@ -23,10 +23,13 @@ function initializeRockets(){
   ROCKET1.y = GAME.canvas.height/2;
 }
 function handleRocketMovement() {
-  ROCKET1.xvel+=ROCKET1.xacc;
-  if (CONTROLS.student.jumping){
-    STUDENT.vel = STUDENT.jump;
+  if (ROCKET1.thrusting){
+    ROCKET1.xacc = ROCKET1.power * Math.cos(ROCKET1.rot);
   }
+  else{
+    ROCKET1.xacc = 0;
+  }
+  ROCKET1.xvel+=ROCKET1.xacc;
   STUDENT.y += STUDENT.vel;
   if (STUDENT.y > GAME.canvas.height-STUDENT.height){
     STUDENT.y = GAME.canvas.height-STUDENT.height;
@@ -37,13 +40,9 @@ function handleRocketMovement() {
 }
 function renderBackground(context){
   var canvas = document.getElementById('canvas');
-  var student = new Image();
-  if (THEISS1.x == STUDENT.x||THEISS2.x == STUDENT.x||THEISS3.x == STUDENT.x){
-    STUDENT.currentStudent = STUDENT.students[Math.floor(Math.random() * STUDENT.students.length)];
-    GAME.score++;
-  };
-  student.src = STUDENT.currentStudent;
-  context.drawImage(student, STUDENT.x, STUDENT.y, STUDENT.width, STUDENT.height);
+  var background = new Image();
+  background.src = 'Space Background.png';
+  context.drawImage(student, 0, 0, GAME.canvas.width, GAME.canvs.height);
 }
 function runGame() {
   var canvas = document.getElementById('mainCanvas');
