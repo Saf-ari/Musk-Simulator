@@ -9,10 +9,16 @@ var CONTROLS = {
 document.addEventListener('keydown', function(event) {
   switch (event.key) {
     case " ":
-      CONTROLS.student.jumping = true;
+      ROCKET1.thrusting = true;
       break;
-      case "r":
-        CONTROLS.running = true;
+      case "a":
+        ROCKET1.rotating = true;
+        ROCKET1.rotspeed = Math.abs(ROCKET1.rotspeed);
+        break;
+        case "d":
+          ROCKET1.rotating = true;
+          ROCKET1.rotspeed = -Math.abs(ROCKET1.rotspeed);
+          break;
     default:
       break;
   }
@@ -22,10 +28,14 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('keyup', function(event) {
   switch (event.key) {
     case " ":
-      CONTROLS.student.jumping = false;
+      ROCKET1.thrusting = false;
       break;
-    case "r":
-      CONTROLS.running = false;
+      case "a":
+        ROCKET1.rotating = false;
+        break;
+        case "d":
+          ROCKET1.rotating = false;
+          break;
     default:
       break;
   }

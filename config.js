@@ -1,36 +1,40 @@
 var GAME = {
   canvas : {
-    width : 600,
-    height : 300
+    width : 1000,
+    height : 600
   },
   started : true,
   score : 0,
-  gap : 100
+  gravity : 0.1
 };
 
 var ROCKET1 = {
   x : 0,
   y : 0,
-  width : 100,
-  height : 100,
+  width : 60,
+  height : 120,
   thrusting : false,
   xvel : 0,
   xacc : 0,
   yvel : 0,
   yacc : 0,
-  rot : 90,
-  power : 5
+  rot : Math.PI/2,
+  rotating : false,
+  rotspeed : Math.PI/70,
+  power : 0.3
 };
 var ROCKET2 = {
   x : 0,
   y : 0,
-  width : 100,
-  height : 100,
+  width : 80,
+  height : 120,
   thrusting : false,
   xvel : 0,
   xacc : 0,
   yvel : 0,
   yacc : 0,
-  rot : 90,
-  power : 5
+  rot : Math.PI/2,
+  rotating : false,
+  rotspeed : Math.PI/70,
+  power : 0.3
 };
