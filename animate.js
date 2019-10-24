@@ -22,6 +22,11 @@ function drawRotatedImage(context, image, x, y, width, height, angle) {
 function initializeRockets(){
   ROCKET1.x = (GAME.canvas.width-ROCKET1.width)/2;
   ROCKET1.y = (GAME.canvas.height-ROCKET1.height)/2;
+  ROCKET1.xvel = 0;
+  ROCKET1.xacc = 0;
+  ROCKET1.yvel = 0;
+  ROCKET1.yacc = 0;
+  ROCKET1.rot = Math.PI/2;
 }
 function handleRocketMovement() {
   if (ROCKET1.thrusting){
@@ -41,16 +46,26 @@ function handleRocketMovement() {
   ROCKET1.x += ROCKET1.xvel;
   ROCKET1.y += ROCKET1.yvel;
   if (ROCKET1.y > GAME.canvas.height-ROCKET1.height/4 ){
-    ROCKET1.y = GAME.canvas.height-ROCKET1.height/4;
-    ROCKET1.yvel = 0;
+    if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
+      GAME.death = "Too much rotation";
+      GAME.started = false;
+    }
+    else if(ROCKET1.yvel > 4){
+      GAME.death = "Too much speed";
+      GAME.started = false;
+    }
+    else{
+      ROCKET1.y = GAME.canvas.height-ROCKET1.height/4;
+      ROCKET1.yvel = 0;
+    }
   }
   if (ROCKET1.y - ROCKET1.height/2 <0){
     ROCKET1.y = ROCKET1.height/2;
     ROCKET1.yvel = 0;
   }
   if (ROCKET1.x > GAME.canvas.width - ROCKET1.width/2){
-    ROCKET1.x = GAME.canvas.width-ROCKET1.width/2;
-    ROCKET1.xvel = 0;
+      ROCKET1.x = GAME.canvas.width-ROCKET1.width/2;
+      ROCKET1.xvel = 0;
   }
   if (ROCKET1.x - ROCKET1.width/2 <0){
     ROCKET1.x = ROCKET1.width/2;
@@ -83,9 +98,11 @@ function runGame() {
     if (GAME.score > document.cookie){
       document.cookie = GAME.score;
     }
-    context.fillText("Game Over Score " + GAME.score, 135, 200);
-    context.fillText("High Score : " + document.cookie, 135, 230);
-    context.fillText("Press R to try again", 135, 260);
+    context.fillStyle = "red";
+    context.textAlign = "center";
+    context.fillText("Game Over: " + GAME.death, GAME.canvas.width/2, 200);
+    context.fillText("Press R to try again", GAME.canvas.width/2, 260);
+
     if (CONTROLS.running){
       GAME.started = true;
     }

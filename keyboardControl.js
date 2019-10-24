@@ -19,6 +19,10 @@ document.addEventListener('keydown', function(event) {
           ROCKET1.rotating = true;
           ROCKET1.rotspeed = -Math.abs(ROCKET1.rotspeed);
           break;
+          case "r":
+            initializeRockets();
+            GAME.started = true;
+            break;
     default:
       break;
   }

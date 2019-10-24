@@ -5,7 +5,8 @@ var GAME = {
   },
   started : true,
   score : 0,
-  gravity : 0.1
+  gravity : 0.1,
+  death : ""
 };
 
 var ROCKET1 = {
