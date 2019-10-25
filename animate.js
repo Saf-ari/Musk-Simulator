@@ -87,6 +87,36 @@ function renderBackground(context){
   background.src = 'Space Background.png';
   context.drawImage(background, 0, 0, GAME.canvas.width, GAME.canvas.height);
 }
+function sprite(options) {
+    var that = {};
+    frameIndex = 0,
+    tickCount = 0,
+    ticksPerFrame = options.ticksPerFrame || 0;
+    that.context = options.context;
+    that.width = options.width;
+    that.height = options.height;
+    that.image = options.image;
+    that.loop = options.loop;
+    that.numnerOfFrames = options.numberOfFrames;
+    that.x = options.x;
+    that.y = options.y;
+    that.render = function () {
+      that.context.drawImage(that.image,frameIndex * that.width / that.numberOfFrames,that.width / that.numberOfFrames,that.width,that.height,that.x,that.y,that.width / that.numberOfFrames,that.height);
+    };
+    that.update = function () {
+        tickCount += 1;
+        if (tickCount > ticksPerFrame) {
+          tickCount = 0;
+          if (frameIndex < that.numberOfFrames - 1) {
+            frameIndex++;
+          }
+          else if (that.loop) {
+              frameIndex = 0;
+          }
+        }
+    };
+    return that;
+}
 function runGame() {
   var canvas = document.getElementById('mainCanvas');
   var context = canvas.getContext('2d');
@@ -98,6 +128,20 @@ function runGame() {
     if (GAME.score > document.cookie){
       document.cookie = GAME.score;
     }
+    var explosionImg = new Image();
+    explosionImg.src = 'explosion.png';
+    var explosion =  sprite({
+        context : canvas.getContext("2d"),
+        width : 5382,
+        height : 189,
+        image : explosionImg,
+        loop : false,
+        numberOfFrames : 21,
+        x : ROCKET1.X,
+        y : ROCKET1.y
+    });
+    explosion.render();
+    explosion.update();
     context.fillStyle = "red";
     context.textAlign = "center";
     context.fillText("Game Over: " + GAME.death, GAME.canvas.width/2, 200);
