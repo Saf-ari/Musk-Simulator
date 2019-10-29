@@ -6,7 +6,7 @@ var GAME = {
   started : true,
   score : 0,
   gravity : 0.1,
-  death : ""
+  death : "",
 };
 
 var ROCKET1 = {
@@ -22,7 +22,8 @@ var ROCKET1 = {
   rot : Math.PI/2,
   rotating : false,
   rotspeed : Math.PI/70,
-  power : 0.3
+  power : 0.3,
+  tipping : false
 };
 var ROCKET2 = {
   x : 0,
@@ -38,4 +39,11 @@ var ROCKET2 = {
   rotating : false,
   rotspeed : Math.PI/70,
   power : 0.3
+};
+var EXPLOSION = {
+  currentFrame : 0,
+  totalFrames : 23,
+  frameDuration : 5,
+  width : 5382,
+  height : 189
 };

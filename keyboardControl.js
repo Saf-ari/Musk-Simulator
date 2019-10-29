@@ -21,6 +21,7 @@ document.addEventListener('keydown', function(event) {
           break;
           case "r":
             initializeRockets();
+            EXPLOSION.currentFrame = 0;
             GAME.started = true;
             break;
     default:

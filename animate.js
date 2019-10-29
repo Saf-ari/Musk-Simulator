@@ -27,6 +27,7 @@ function initializeRockets(){
   ROCKET1.yvel = 0;
   ROCKET1.yacc = 0;
   ROCKET1.rot = Math.PI/2;
+  ROCKET1.tipping = false;
 }
 function handleRocketMovement() {
   if (ROCKET1.thrusting){
@@ -48,6 +49,7 @@ function handleRocketMovement() {
   if (ROCKET1.y > GAME.canvas.height-ROCKET1.height/4 ){
     if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
       GAME.death = "Too much rotation";
+      ROCKET1.tipping = true;
       GAME.started = false;
     }
     else if(ROCKET1.yvel > 4){
@@ -82,41 +84,12 @@ function handleRocketMovement() {
   }
 }
 function renderBackground(context){
-  var canvas = document.getElementById('canvas');
+  var canvas = document.getElementById('mainCanvas');
   var background = new Image();
   background.src = 'Space Background.png';
   context.drawImage(background, 0, 0, GAME.canvas.width, GAME.canvas.height);
 }
-function sprite(options) {
-    var that = {};
-    frameIndex = 0,
-    tickCount = 0,
-    ticksPerFrame = options.ticksPerFrame || 0;
-    that.context = options.context;
-    that.width = options.width;
-    that.height = options.height;
-    that.image = options.image;
-    that.loop = options.loop;
-    that.numnerOfFrames = options.numberOfFrames;
-    that.x = options.x;
-    that.y = options.y;
-    that.render = function () {
-      that.context.drawImage(that.image,frameIndex * that.width / that.numberOfFrames,that.width / that.numberOfFrames,that.width,that.height,that.x,that.y,that.width / that.numberOfFrames,that.height);
-    };
-    that.update = function () {
-        tickCount += 1;
-        if (tickCount > ticksPerFrame) {
-          tickCount = 0;
-          if (frameIndex < that.numberOfFrames - 1) {
-            frameIndex++;
-          }
-          else if (that.loop) {
-              frameIndex = 0;
-          }
-        }
-    };
-    return that;
-}
+
 function runGame() {
   var canvas = document.getElementById('mainCanvas');
   var context = canvas.getContext('2d');
@@ -128,20 +101,22 @@ function runGame() {
     if (GAME.score > document.cookie){
       document.cookie = GAME.score;
     }
-    var explosionImg = new Image();
-    explosionImg.src = 'explosion.png';
-    var explosion =  sprite({
-        context : canvas.getContext("2d"),
-        width : 5382,
-        height : 189,
-        image : explosionImg,
-        loop : false,
-        numberOfFrames : 21,
-        x : ROCKET1.X,
-        y : ROCKET1.y
-    });
-    explosion.render();
-    explosion.update();
+    if (RROCKET1.tipping){
+      if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
+        ROCKET1.rot -= Math.pi/70;
+      }
+      else if (ROCKET1.rot > Math.PI/2 && ROCKET1.rot < Math.PI){
+        ROCKET1.rot += Math.pi/70;
+      }
+      else{
+        ROCKET1.tipping = false;
+      }
+    }
+    else if (EXPLOSION.currentFrame< EXPLOSION.totalFrames * EXPLOSION.frameDuration){
+      var explosion = new Image();
+      explosion.src = "explosion.png";
+      context.drawImage(explosion,EXPLOSION.width / EXPLOSION.totalFrames * Math.floor(EXPLOSION.curretframe/EXPLOSION.frameDuration), EXPLOSION.height,EXPLOSION.width / EXPLOSION.totalFrames ,EXPLOSION.height,ROCKET1.x,ROCKET1.y,EXPLOSION.width / EXPLOSION.totalFrames ,EXPLOSION.height);
+    }
     context.fillStyle = "red";
     context.textAlign = "center";
     context.fillText("Game Over: " + GAME.death, GAME.canvas.width/2, 200);
