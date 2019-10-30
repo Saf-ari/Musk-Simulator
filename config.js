@@ -4,7 +4,6 @@ var GAME = {
     height : 600
   },
   started : true,
-  score : 0,
   gravity : 0.1,
   death : "",
 };

@@ -1,7 +1,9 @@
 
 function renderRockets(context) {
   var canvas = document.getElementById('canvas');
-  handleRocketMovement();
+  if (GAME.started){
+    handleRocketMovement();
+  }
   var r1 = new Image();
   if (ROCKET1.thrusting){
     r1.src = 'Rocket Ship 1 Thrust.png';
@@ -50,15 +52,24 @@ function handleRocketMovement() {
     if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
       GAME.death = "Too much rotation";
       ROCKET1.tipping = true;
+      ROCKET1.thrusting = false;
       GAME.started = false;
     }
     else if(ROCKET1.yvel > 4){
       GAME.death = "Too much speed";
+      ROCKET1.thrusting = false;
       GAME.started = false;
     }
     else{
       ROCKET1.y = GAME.canvas.height-ROCKET1.height/4;
       ROCKET1.yvel = 0;
+      ROCKET1.xvel = 0;
+      if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
+        ROCKET1.rot += Math.abs(ROCKET1.rotspeed);
+      }
+      else if (ROCKET1.rot > Math.PI/2 && ROCKET1.rot < Math.PI){
+        ROCKET1.rot -= Math.abs(ROCKET1.rotspeed);
+      }
     }
   }
   if (ROCKET1.y - ROCKET1.height/2 <0){
@@ -88,6 +99,7 @@ function renderBackground(context){
   var background = new Image();
   background.src = 'Space Background.png';
   context.drawImage(background, 0, 0, GAME.canvas.width, GAME.canvas.height);
+
 }
 
 function runGame() {
@@ -98,24 +110,25 @@ function runGame() {
     renderRockets(context);
   } else {
     context.font = "30px Arial";
-    if (GAME.score > document.cookie){
-      document.cookie = GAME.score;
-    }
-    if (RROCKET1.tipping){
+    if (ROCKET1.tipping){
       if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
-        ROCKET1.rot -= Math.pi/70;
+        ROCKET1.rot -= Math.abs(ROCKET1.rotspeed);
       }
       else if (ROCKET1.rot > Math.PI/2 && ROCKET1.rot < Math.PI){
-        ROCKET1.rot += Math.pi/70;
+        ROCKET1.rot += Math.abs(ROCKET1.rotspeed);
       }
       else{
         ROCKET1.tipping = false;
       }
+      renderBackground(context);
+      renderRockets(context);
     }
-    else if (EXPLOSION.currentFrame< EXPLOSION.totalFrames * EXPLOSION.frameDuration){
+    else if (EXPLOSION.currentFrame < EXPLOSION.totalFrames * EXPLOSION.frameDuration){
       var explosion = new Image();
       explosion.src = "explosion.png";
-      context.drawImage(explosion,EXPLOSION.width / EXPLOSION.totalFrames * Math.floor(EXPLOSION.curretframe/EXPLOSION.frameDuration), EXPLOSION.height,EXPLOSION.width / EXPLOSION.totalFrames ,EXPLOSION.height,ROCKET1.x,ROCKET1.y,EXPLOSION.width / EXPLOSION.totalFrames ,EXPLOSION.height);
+      renderBackground(context);
+      context.drawImage(explosion,EXPLOSION.width / EXPLOSION.totalFrames * Math.floor(EXPLOSION.currentFrame/EXPLOSION.frameDuration),0,EXPLOSION.width / EXPLOSION.totalFrames, EXPLOSION.height, ROCKET1.x-(EXPLOSION.width / (2 * EXPLOSION.totalFrames)), ROCKET1.y-(EXPLOSION.height/1.3), EXPLOSION.width / EXPLOSION.totalFrames, EXPLOSION.height);
+      EXPLOSION.currentFrame++;
     }
     context.fillStyle = "red";
     context.textAlign = "center";
