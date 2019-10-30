@@ -95,7 +95,6 @@ function handleRocketMovement() {
   }
 }
 function renderBackground(context){
-  var canvas = document.getElementById('mainCanvas');
   var background = new Image();
   background.src = 'Space Background.png';
   context.drawImage(background, 0, 0, GAME.canvas.width, GAME.canvas.height);
@@ -108,8 +107,8 @@ function runGame() {
   if (GAME.started) {
     renderBackground(context);
     renderRockets(context);
-  } else {
-    context.font = "30px Arial";
+  }
+  else {
     if (ROCKET1.tipping){
       if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
         ROCKET1.rot -= Math.abs(ROCKET1.rotspeed);
@@ -130,11 +129,13 @@ function runGame() {
       context.drawImage(explosion,EXPLOSION.width / EXPLOSION.totalFrames * Math.floor(EXPLOSION.currentFrame/EXPLOSION.frameDuration),0,EXPLOSION.width / EXPLOSION.totalFrames, EXPLOSION.height, ROCKET1.x-(EXPLOSION.width / (2 * EXPLOSION.totalFrames)), ROCKET1.y-(EXPLOSION.height/1.3), EXPLOSION.width / EXPLOSION.totalFrames, EXPLOSION.height);
       EXPLOSION.currentFrame++;
     }
-    context.fillStyle = "red";
-    context.textAlign = "center";
-    context.fillText("Game Over: " + GAME.death, GAME.canvas.width/2, 200);
-    context.fillText("Press R to try again", GAME.canvas.width/2, 260);
-
+    else{
+      context.font = "30px Arial";
+      context.fillStyle = "red";
+      context.textAlign = "center";
+      context.fillText("Game Over: " + GAME.death, GAME.canvas.width/2, 200);
+      context.fillText("Press R to try again", GAME.canvas.width/2, 260);
+    }
     if (CONTROLS.running){
       GAME.started = true;
     }
