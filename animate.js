@@ -130,6 +130,7 @@ function runGame() {
       EXPLOSION.currentFrame++;
     }
     else{
+      renderBackground(context);
       context.font = "30px Arial";
       context.fillStyle = "red";
       context.textAlign = "center";
