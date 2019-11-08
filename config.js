@@ -46,3 +46,10 @@ var EXPLOSION = {
   width : 5382,
   height : 189
 };
+
+var PLATFORM = {
+  x : 0,
+  y : 0,
+  width : 0,
+  height : 0
+};

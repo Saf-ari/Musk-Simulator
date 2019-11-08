@@ -101,12 +101,27 @@ function renderBackground(context){
 
 }
 
+function renderPlatform(context){
+  var platform = new Image();
+  platform.src = 'platform.png';
+  context.drawImage(platform, PLATFORM.x, PLATFORM.y, PLATFORM.width, PLATFORM.height);
+}
+
+function randomizePlatform(){
+  PLATFORM.x = Math.random ()*GAME.canvas.width;
+  PLATFORM.y = Math.random()*GAME.canvas.height;
+
+  PLATFORM.width = Math.random()*400 +50;
+  PLATFORM.height = Math.random()*200 +50;
+}
+
 function runGame() {
   var canvas = document.getElementById('mainCanvas');
   var context = canvas.getContext('2d');
   if (GAME.started) {
     renderBackground(context);
     renderRockets(context);
+    renderPlatform(context);
   }
   else {
     if (ROCKET1.tipping){

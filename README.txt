@@ -15,7 +15,7 @@ The thruster reduces or increases the rocket speed in the direction the ship is 
 
 For example, if the rocket is pointed directly horizontal, there will be no change in vertical velocity,
 only a large change in horizontal velocity.
-
+q
 If the rocket is pointed 45 degrees above horizontal the changes in vertical and horizontal velocity
 will be equal
 
