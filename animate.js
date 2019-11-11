@@ -30,10 +30,15 @@ function initializeRockets(){
   ROCKET1.yacc = 0;
   ROCKET1.rot = Math.PI/2;
   ROCKET1.tipping = false;
+  randomizePlatform();
+  giveBackFuel();
+
+
 }
 function handleRocketMovement() {
   if (ROCKET1.thrusting){
     ROCKET1.xacc = ROCKET1.power * Math.cos(ROCKET1.rot);
+    ROCKET1.fuel -= 1;
   }
   else{
     ROCKET1.xacc = 0;
@@ -48,10 +53,16 @@ function handleRocketMovement() {
   ROCKET1.yvel+=ROCKET1.yacc;
   ROCKET1.x += ROCKET1.xvel;
   ROCKET1.y += ROCKET1.yvel;
+  if (ROCKET1.fuel == 0){
+    GAME.death = "Ran out of fuel";
+    ROCKET1.thrusting = false;
+    GAME.started = false;
+    GAME.level = GAME.level/2;
+  }
   //i think this is where the trouble is
-  if ((ROCKET1.y < PLATFORM.y+PLATFORM.height/2-ROCKET1.height/4 +6) &&
-  (ROCKET1.y > PLATFORM.y+PLATFORM.height/2-ROCKET1.height/4 -6 ) &&
-  (ROCKET1.x > PLATFORM.x-(PLATFORM.width/2)-(ROCKET1.width/2)) &&
+  if ((ROCKET1.y < 100-ROCKET1.height/4 +6) &&
+  (ROCKET1.y > 100-ROCKET1.height/4 -6 ) &&
+  (ROCKET1.x > PLATFORM.x-(PLATFORM.width/2)) &&
   (ROCKET1.x < PLATFORM.x+(PLATFORM.width/2)))
   {
     if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
@@ -59,17 +70,21 @@ function handleRocketMovement() {
       ROCKET1.tipping = true;
       ROCKET1.thrusting = false;
       GAME.started = false;
+      GAME.level = GAME.level/2;
     }
     else if(ROCKET1.yvel > 4){
       GAME.death = "Too much speed";
       ROCKET1.thrusting = false;
       GAME.started = false;
+      GAME.level = GAME.level/2;
     }
     else{
       ROCKET1.y = PLATFORM.y-ROCKET1.height/4
       ROCKET1.yvel = 0;
       ROCKET1.xvel = 0;
+      GAME.death = "excellent landing"
       GAME.started = false;
+      GAME.level = GAME.level/2;
       if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
         ROCKET1.rot += Math.abs(ROCKET1.rotspeed);
       }
@@ -117,17 +132,30 @@ function randomizePlatform(){
   PLATFORM.x = Math.random ()*GAME.canvas.width;
   PLATFORM.y = Math.random()*GAME.canvas.height;
 
-  PLATFORM.width = Math.random()*400 +50;
-  PLATFORM.height = Math.random()*200 +50;
+  PLATFORM.width = Math.random()*400 +50*GAME.level;
+  PLATFORM.height = 100;
+}
+
+function renderFuel(context){
+  var fuelBox = new Image();
+  fuelBox.src = 'swirl.jpg'
+  context.drawImage(fuelBox, 10, 100, 100, ROCKET1.fuel)
+
+}
+
+function giveBackFuel(){
+  ROCKET1.fuel = 500;
 }
 
 function runGame() {
   var canvas = document.getElementById('mainCanvas');
   var context = canvas.getContext('2d');
   if (GAME.started) {
+
     renderBackground(context);
     renderRockets(context);
     renderPlatform(context);
+    renderFuel(context);
   }
   else {
     if (ROCKET1.tipping){
@@ -147,6 +175,7 @@ function runGame() {
       var explosion = new Image();
       explosion.src = "explosion.png";
       renderBackground(context);
+      renderPlatform(context);
       context.drawImage(explosion,EXPLOSION.width / EXPLOSION.totalFrames * Math.floor(EXPLOSION.currentFrame/EXPLOSION.frameDuration),0,EXPLOSION.width / EXPLOSION.totalFrames, EXPLOSION.height, ROCKET1.x-(EXPLOSION.width / (2 * EXPLOSION.totalFrames)), ROCKET1.y-(EXPLOSION.height/1.3), EXPLOSION.width / EXPLOSION.totalFrames, EXPLOSION.height);
       EXPLOSION.currentFrame++;
     }

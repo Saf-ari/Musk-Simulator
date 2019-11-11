@@ -6,6 +6,7 @@ var GAME = {
   started : true,
   gravity : 0.1,
   death : "",
+  level : 5
 };
 
 var ROCKET1 = {
@@ -22,7 +23,8 @@ var ROCKET1 = {
   rotating : false,
   rotspeed : Math.PI/70,
   power : 0.3,
-  tipping : false
+  tipping : false,
+  fuel : 500
 };
 var ROCKET2 = {
   x : 0,
