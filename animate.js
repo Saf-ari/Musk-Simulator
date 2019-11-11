@@ -48,7 +48,12 @@ function handleRocketMovement() {
   ROCKET1.yvel+=ROCKET1.yacc;
   ROCKET1.x += ROCKET1.xvel;
   ROCKET1.y += ROCKET1.yvel;
-  if (ROCKET1.y > GAME.canvas.height-ROCKET1.height/4 ){
+  //i think this is where the trouble is
+  if ((ROCKET1.y < PLATFORM.y+PLATFORM.height/2-ROCKET1.height/4 +6) &&
+  (ROCKET1.y > PLATFORM.y+PLATFORM.height/2-ROCKET1.height/4 -6 ) &&
+  (ROCKET1.x > PLATFORM.x-(PLATFORM.width/2)-(ROCKET1.width/2)) &&
+  (ROCKET1.x < PLATFORM.x+(PLATFORM.width/2)))
+  {
     if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
       GAME.death = "Too much rotation";
       ROCKET1.tipping = true;
@@ -61,9 +66,10 @@ function handleRocketMovement() {
       GAME.started = false;
     }
     else{
-      ROCKET1.y = GAME.canvas.height-ROCKET1.height/4;
+      ROCKET1.y = PLATFORM.y-ROCKET1.height/4
       ROCKET1.yvel = 0;
       ROCKET1.xvel = 0;
+      GAME.started = false;
       if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
         ROCKET1.rot += Math.abs(ROCKET1.rotspeed);
       }
