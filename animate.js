@@ -60,8 +60,8 @@ function handleRocketMovement() {
     GAME.level = GAME.level/2;
   }
   //i think this is where the trouble is
-  if ((ROCKET1.y < 100-ROCKET1.height/4 +6) &&
-  (ROCKET1.y > 100-ROCKET1.height/4 -6 ) &&
+  if ((ROCKET1.y < PLATFORM.y +3) &&
+  (ROCKET1.y > PLATFORM.y -3 ) &&
   (ROCKET1.x > PLATFORM.x-(PLATFORM.width/2)) &&
   (ROCKET1.x < PLATFORM.x+(PLATFORM.width/2)))
   {
@@ -126,11 +126,20 @@ function renderPlatform(context){
   var platform = new Image();
   platform.src = 'platform.png';
   context.drawImage(platform, PLATFORM.x, PLATFORM.y, PLATFORM.width, PLATFORM.height);
+
+}
+function debugHitbox(context){
+  context.beginPath();
+  context.lineWidth = "6";
+  context.strokeStyle = "red";
+  context.rect(PLATFORM.x, PLATFORM.y, PLATFORM.width, PLATFORM.height);
+  context.rect (ROCKET1.x, ROCKET1.y, ROCKET1.width, ROCKET1.height);
+  context.stroke();
 }
 
 function randomizePlatform(){
-  PLATFORM.x = Math.random ()*GAME.canvas.width;
-  PLATFORM.y = Math.random()*GAME.canvas.height;
+  PLATFORM.x = Math.random ()*(GAME.canvas.width-50);
+  PLATFORM.y = Math.random()*(GAME.canvas.height-50);
 
   PLATFORM.width = Math.random()*400 +50*GAME.level;
   PLATFORM.height = 100;
@@ -155,6 +164,7 @@ function runGame() {
     renderBackground(context);
     renderRockets(context);
     renderPlatform(context);
+    debugHitbox(context);
     renderFuel(context);
   }
   else {
