@@ -35,6 +35,42 @@ function initializeRockets(){
 
 
 }
+
+function bottomInBetweenPlatformHeight(){
+  if (((ROCKET1.y+ROCKET1.height/2) > PLATFORM.y-50) &&
+      ((ROCKET1.y+ROCKET1.height/2) < PLATFORM.y+50)){
+  return true;
+}
+return false;
+}
+
+function topInBetweenPlatformHeight(){
+  if (((ROCKET1.y-ROCKET1.height/2) > PLATFORM.y-50) &&
+      ((ROCKET1.y-ROCKET1.height/2) < PLATFORM.y+50)){
+  return true;
+}
+return false;
+}
+//rocket width = 60
+//rocket height = 120
+function leftInBetweenPlatformWidth(){
+  if (((ROCKET1.x-ROCKET1.width/2) > PLATFORM.x- PLATFORM.width/2) &&
+      ((ROCKET1.x-ROCKET1.width/2) < PLATFORM.x+  PLATFORM.width/2)){
+  return true;
+}
+return false;
+}
+
+function rightInBetweenPlatformWidth(){
+  if (((ROCKET1.x+ROCKET1.width/2) > PLATFORM.x-PLATFORM.width/2) &&
+      ((ROCKET1.x+ROCKET1.width/2) < PLATFORM.x+PLATFORM.width/4)){
+  return true;
+}
+return false;
+}
+
+
+
 function handleRocketMovement() {
   if (ROCKET1.thrusting){
     ROCKET1.xacc = ROCKET1.power * Math.cos(ROCKET1.rot);
@@ -60,10 +96,9 @@ function handleRocketMovement() {
     GAME.level = GAME.level/2;
   }
   //i think this is where the trouble is
-  if ((ROCKET1.y < PLATFORM.y +3) &&
-  (ROCKET1.y > PLATFORM.y -3 ) &&
-  (ROCKET1.x > PLATFORM.x-(PLATFORM.width/2)) &&
-  (ROCKET1.x < PLATFORM.x+(PLATFORM.width/2)))
+  if (
+    //(bottomInBetweenPlatformHeight() ||  topInBetweenPlatformHeight()) &&
+   (leftInBetweenPlatformWidth() || rightInBetweenPlatformWidth()))
   {
     if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
       GAME.death = "Too much rotation";
@@ -133,7 +168,7 @@ function debugHitbox(context){
   context.lineWidth = "6";
   context.strokeStyle = "red";
   context.rect(PLATFORM.x, PLATFORM.y, PLATFORM.width, PLATFORM.height);
-  context.rect (ROCKET1.x, ROCKET1.y, ROCKET1.width, ROCKET1.height);
+  context.rect (ROCKET1.x, ROCKET1.y , ROCKET1.width, ROCKET1.height);
   context.stroke();
 }
 
@@ -164,7 +199,7 @@ function runGame() {
     renderBackground(context);
     renderRockets(context);
     renderPlatform(context);
-    debugHitbox(context);
+  //  debugHitbox(context);
     renderFuel(context);
   }
   else {
