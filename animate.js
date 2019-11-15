@@ -1,4 +1,5 @@
 
+var score = 0;
 function renderRockets(context) {
   var canvas = document.getElementById('canvas');
   if (GAME.started){
@@ -22,6 +23,11 @@ function drawRotatedImage(context, image, x, y, width, height, angle) {
 	context.restore();
 }
 function initializeRockets(){
+  var canvas = document.getElementById('mainCanvas');
+  var context = canvas.getContext('2d');
+  context.font = "30px Arial";
+  context.fillStyle = "red";
+  context.fillText("Score : "+score,10,10);
   ROCKET1.x = (GAME.canvas.width-ROCKET1.width)/2;
   ROCKET1.y = (GAME.canvas.height-ROCKET1.height)/2;
   ROCKET1.xvel = 0;
@@ -32,8 +38,6 @@ function initializeRockets(){
   ROCKET1.tipping = false;
   randomizePlatform();
   giveBackFuel();
-
-
 }
 
 function bottomInBetweenPlatformHeight(){
@@ -106,12 +110,14 @@ function handleRocketMovement() {
       ROCKET1.thrusting = false;
       GAME.started = false;
       GAME.level = GAME.level/2;
+      score = 0;
     }
     else if(ROCKET1.yvel > 4){
       GAME.death = "Too much speed";
       ROCKET1.thrusting = false;
       GAME.started = false;
       GAME.level = GAME.level/2;
+      score = 0;
     }
     else{
       ROCKET1.y = PLATFORM.y-ROCKET1.height/4
@@ -120,6 +126,7 @@ function handleRocketMovement() {
       GAME.death = "excellent landing"
       GAME.started = false;
       GAME.level = GAME.level/2;
+      score = score +1;
       if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
         ROCKET1.rot += Math.abs(ROCKET1.rotspeed);
       }
