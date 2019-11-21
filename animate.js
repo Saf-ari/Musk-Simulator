@@ -83,7 +83,22 @@ function rightInBetweenPlatformWidth(){
 return false;
 }
 
+function checkCollidePlatform(){
+  if (ROCKET1.x < PLATFORM.x + PLATFORM.width +39 && ROCKET1.x + ROCKET1.width  > PLATFORM.x +39 &&
+  ROCKET1.y < PLATFORM.y + PLATFORM.height +107 && ROCKET1.y + ROCKET1.height > PLATFORM.y+107) {
+    return true;
+}
+return false;
+}
 
+function debugXY(context){
+context.beginPath();
+context.lineWidth = "6";
+context.strokeStyle = "red";
+context.rect (ROCKET1.x, ROCKET1.y , 10, 10);
+context.rect (PLATFORM.x+PLATFORM.width, PLATFORM.y , 10, 10);
+context.stroke();
+}
 
 function handleRocketMovement() {
   if (ROCKET1.thrusting){
@@ -110,9 +125,9 @@ function handleRocketMovement() {
     GAME.level = GAME.level/2;
   }
   //i think this is where the trouble is
-  if (
-    //(bottomInBetweenPlatformHeight() ||  topInBetweenPlatformHeight()) &&
-   (leftInBetweenPlatformWidth() || rightInBetweenPlatformWidth()))
+
+  if
+    (checkCollidePlatform())
   {
     if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
       GAME.death = "Too much rotation";
@@ -219,6 +234,7 @@ function runGame() {
     renderBackground(context);
     renderRockets(context);
     renderPlatform(context);
+    debugXY(context);
   //  debugHitbox(context);
     renderFuel(context);
     renderCurrentScore(context);
