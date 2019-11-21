@@ -110,10 +110,9 @@ function handleRocketMovement() {
     GAME.level = GAME.level/2;
   }
   //i think this is where the trouble is
-}
-  if (ROCKET1.x < PLATFORM.x + PLATFORM.width  && ROCKET1.x + ROCKET1.width  > PLATFORM.x &&
-		ROCKET1.y < PLATFORM.y + PLATFORM.height && ROCKET1.y + ROCKET1.height > PLATFORM.y)
-
+  if (
+    //(bottomInBetweenPlatformHeight() ||  topInBetweenPlatformHeight()) &&
+   (leftInBetweenPlatformWidth() || rightInBetweenPlatformWidth()))
   {
     if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
       GAME.death = "Too much rotation";
@@ -170,8 +169,7 @@ function handleRocketMovement() {
       ROCKET1.rot = 0;
     }
   }
-
-
+}
 function renderBackground(context){
   var background = new Image();
   background.src = 'Space Background.png';
