@@ -6,6 +6,7 @@
  *
  */
 function Start() {
+  giveBackFuel();
   initializeRockets();
   randomizePlatform();
 }

@@ -6,7 +6,9 @@ var GAME = {
   started : true,
   gravity : 0.1,
   death : "",
-  level : 5
+  level : 5,
+  score : 0,
+  highScore : 0
 };
 
 var ROCKET1 = {

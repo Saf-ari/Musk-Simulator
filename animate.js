@@ -1,6 +1,6 @@
-
 var score = 0;
 var highScore = 0;
+
 function renderRockets(context) {
   var canvas = document.getElementById('canvas');
   if (GAME.started){
@@ -35,7 +35,7 @@ function initializeRockets(){
   ROCKET1.rot = Math.PI/2;
   ROCKET1.tipping = false;
   randomizePlatform();
-  giveBackFuel();
+
 }
 
 function renderCurrentScore(context){
@@ -50,38 +50,7 @@ function renderHighScore(context){
   context.fillText("High score: " + highScore, 800, 70);
 }
 
-function bottomInBetweenPlatformHeight(){
-  if (((ROCKET1.y+ROCKET1.height/2) > PLATFORM.y-50) &&
-      ((ROCKET1.y+ROCKET1.height/2) < PLATFORM.y+50)){
-  return true;
-}
-return false;
-}
 
-function topInBetweenPlatformHeight(){
-  if (((ROCKET1.y-ROCKET1.height/2) > PLATFORM.y-50) &&
-      ((ROCKET1.y-ROCKET1.height/2) < PLATFORM.y+50)){
-  return true;
-}
-return false;
-}
-//rocket width = 60
-//rocket height = 120
-function leftInBetweenPlatformWidth(){
-  if (((ROCKET1.x-ROCKET1.width/2) > PLATFORM.x- PLATFORM.width/2) &&
-      ((ROCKET1.x-ROCKET1.width/2) < PLATFORM.x+  PLATFORM.width/2)){
-  return true;
-}
-return false;
-}
-
-function rightInBetweenPlatformWidth(){
-  if (((ROCKET1.x+ROCKET1.width/2) > PLATFORM.x-PLATFORM.width/2) &&
-      ((ROCKET1.x+ROCKET1.width/2) < PLATFORM.x+PLATFORM.width/4)){
-  return true;
-}
-return false;
-}
 
 function checkCollidePlatform(){
   if (ROCKET1.x < PLATFORM.x + PLATFORM.width +39 && ROCKET1.x + ROCKET1.width  > PLATFORM.x +39 &&
@@ -91,14 +60,9 @@ function checkCollidePlatform(){
 return false;
 }
 
-function debugXY(context){
-context.beginPath();
-context.lineWidth = "6";
-context.strokeStyle = "red";
-context.rect (ROCKET1.x, ROCKET1.y , 10, 10);
-context.rect (PLATFORM.x+PLATFORM.width, PLATFORM.y , 10, 10);
-context.stroke();
-}
+
+
+
 
 function handleRocketMovement() {
   if (ROCKET1.thrusting){
@@ -122,9 +86,13 @@ function handleRocketMovement() {
     GAME.death = "Ran out of fuel";
     ROCKET1.thrusting = false;
     GAME.started = false;
-    GAME.level = GAME.level/2;
+    GAME.level = 5;
+    if (score > highScore){
+      highScore = score;
+    }
+    score = 0;
+    giveBackFuel();
   }
-  //i think this is where the trouble is
 
   if
     (checkCollidePlatform())
@@ -234,8 +202,6 @@ function runGame() {
     renderBackground(context);
     renderRockets(context);
     renderPlatform(context);
-    debugXY(context);
-  //  debugHitbox(context);
     renderFuel(context);
     renderCurrentScore(context);
     renderHighScore(context)
