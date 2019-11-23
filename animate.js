@@ -78,7 +78,8 @@ function renderCurrentScore2(context){
   context.font = "30px Arial";
   context.fillStyle = "red";
 
-  context.fillText("P2 Score: " + scorePlayerTwo, 60, 90);
+  context.fillText("P2 Score: " + scorePlayerTwo, 90, 100);
+  context.fillText("P1 Score: " + scorePlayerOne, 90, 70);
 }
 
 function renderHighScore(context){
@@ -147,14 +148,14 @@ function handleRocketMovement() {
       ROCKET1.thrusting = false;
       GAME.started = false;
       GAME.level = GAME.level/2;
-      score = 0;
+      scorePlayerOne = 0;
     }
     else if(ROCKET1.yvel > 4){
       GAME.death = "PLAYER 1 had too much speed";
       ROCKET1.thrusting = false;
       GAME.started = false;
       GAME.level = GAME.level/2;
-      score = 0;
+      scorePlayerOne = 0;
     }
     else{
       ROCKET1.y = PLATFORM.y-ROCKET1.height/4
@@ -324,14 +325,14 @@ function randomizePlatform(){
 function renderFuel(context){
   var fuelBox = new Image();
   fuelBox.src = 'swirl red.jpg'
-  context.drawImage(fuelBox, 10, 100, 100, ROCKET1.fuel)
+  context.drawImage(fuelBox, 10, 100, 30, ROCKET1.fuel)
 
 }
 //rocket2
 function renderFuel2(context){
   var fuelBox = new Image();
   fuelBox.src = 'swirl blue.jpg'
-  context.drawImage(fuelBox, 100, 100, 100, ROCKET2.fuel)
+  context.drawImage(fuelBox, 40, 100, 30, ROCKET2.fuel)
 
 }
 
@@ -354,7 +355,7 @@ function runGame() {
       renderPlatform(context);
       renderFuel(context);
       renderFuel2(context);
-      renderCurrentScore(context);
+      //renderCurrentScore(context);
       renderCurrentScore2(context);
       renderHighScore(context);
     }
