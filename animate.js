@@ -71,7 +71,13 @@ function initializeRockets(){
 function renderCurrentScore(context){
   context.font = "30px Arial";
   context.fillStyle = "red";
-  context.fillText("P1 Score: " + scorePlayerOne, 60, 70);
+  context.fillText("Score: " + scorePlayerOne, 60, 70);
+
+}
+function renderCurrentScore2(context){
+  context.font = "30px Arial";
+  context.fillStyle = "red";
+
   context.fillText("P2 Score: " + scorePlayerTwo, 60, 90);
 }
 
@@ -341,14 +347,28 @@ function runGame() {
   var context = canvas.getContext('2d');
   if (GAME.started) {
 
-    renderBackground(context);
-    renderRockets(context);
-    renderRockets2(context);
-    renderPlatform(context);
-    renderFuel(context);
-    renderFuel2(context);
-    renderCurrentScore(context);
-    renderHighScore(context);
+    if (GAME.mode == 2){
+      renderBackground(context);
+      renderRockets(context);
+      renderRockets2(context);
+      renderPlatform(context);
+      renderFuel(context);
+      renderFuel2(context);
+      renderCurrentScore(context);
+      renderCurrentScore2(context);
+      renderHighScore(context);
+    }
+    else{
+      renderBackground(context);
+      renderRockets(context);
+    //  renderRockets2(context);
+      renderPlatform(context);
+      renderFuel(context);
+    //  renderFuel2(context);
+      renderCurrentScore(context);
+      renderHighScore(context);
+    }
+
   }
   else {
     if (ROCKET1.tipping){
