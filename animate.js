@@ -1,4 +1,5 @@
-var score = 0;
+var scorePlayerOne = 0;
+var scorePlayerTwo = 0
 var highScore = 0;
 //for rocket1
 function renderRockets(context) {
@@ -70,7 +71,8 @@ function initializeRockets(){
 function renderCurrentScore(context){
   context.font = "30px Arial";
   context.fillStyle = "red";
-  context.fillText("Score: " + score, 60, 70);
+  context.fillText("P1 Score: " + scorePlayerOne, 60, 70);
+  context.fillText("P2 Score: " + scorePlayerTwo, 60, 90);
 }
 
 function renderHighScore(context){
@@ -123,10 +125,10 @@ function handleRocketMovement() {
     ROCKET1.thrusting = false;
     GAME.started = false;
     GAME.level = 5;
-    if (score > highScore){
-      highScore = score;
+    if (scorePlayerOne > highScore){
+      highScore = scorePlayerOne;
     }
-    score = 0;
+    scorePlayerOne = 0;
     giveBackFuel();
   }
 
@@ -155,9 +157,9 @@ function handleRocketMovement() {
       GAME.death = "PLAYER 1 had an excellent landing"
       GAME.started = false;
       GAME.level = GAME.level/2;
-      score = score +1;
-      if (score>highScore){
-        highScore = score;
+      scorePlayerOne = scorePlayerOne +1;
+      if (scorePlayerOne>highScore){
+        highScore = scorePlayerOne;
       }
       if (ROCKET1.rot < Math.PI/2 && ROCKET1.rot > 0){
         ROCKET1.rot += Math.abs(ROCKET1.rotspeed);
@@ -215,10 +217,10 @@ function handleRocketMovement2() {
     ROCKET2.thrusting = false;
     GAME.started = false;
     GAME.level = 5;
-    if (score > highScore){
-      highScore = score;
+    if (scorePlayerTwo > highScore){
+      highScore = scorePlayerTwo;
     }
-    score = 0;
+    scorePlayerTwo = 0;
     giveBackFuel();
   }
 
@@ -231,14 +233,14 @@ function handleRocketMovement2() {
       ROCKET2.thrusting = false;
       GAME.started = false;
       GAME.level = GAME.level/2;
-      score = 0;
+      scorePlayerTwo = 0;
     }
     else if(ROCKET2.yvel > 4){
       GAME.death = "PLAYER 2 too much speed";
       ROCKET2.thrusting = false;
       GAME.started = false;
       GAME.level = GAME.level/2;
-      score = 0;
+      scorePlayerTwo = 0;
     }
     else{
       ROCKET2.y = PLATFORM.y-ROCKET2.height/4
@@ -247,9 +249,9 @@ function handleRocketMovement2() {
       GAME.death = "PLAYER 2 had an excellent landing"
       GAME.started = false;
       GAME.level = GAME.level/2;
-      score = score +1;
-      if (score>highScore){
-        highScore = score;
+      scorePlayerTwo = scorePlayerTwo +1;
+      if (scorePlayerTwo>highScore){
+        highScore = scorePlayerTwo;
       }
       if (ROCKET2.rot < Math.PI/2 && ROCKET2.rot > 0){
         ROCKET2.rot += Math.abs(ROCKET2.rotspeed);
@@ -312,15 +314,24 @@ function randomizePlatform(){
   PLATFORM.height = 100;
 }
 
+//rocket1
 function renderFuel(context){
   var fuelBox = new Image();
-  fuelBox.src = 'swirl.jpg'
+  fuelBox.src = 'swirl red.jpg'
   context.drawImage(fuelBox, 10, 100, 100, ROCKET1.fuel)
+
+}
+//rocket2
+function renderFuel2(context){
+  var fuelBox = new Image();
+  fuelBox.src = 'swirl blue.jpg'
+  context.drawImage(fuelBox, 100, 100, 100, ROCKET2.fuel)
 
 }
 
 function giveBackFuel(){
   ROCKET1.fuel = 500;
+  ROCKET2.fuel = 500;
 }
 
 
@@ -335,6 +346,7 @@ function runGame() {
     renderRockets2(context);
     renderPlatform(context);
     renderFuel(context);
+    renderFuel2(context);
     renderCurrentScore(context);
     renderHighScore(context);
   }

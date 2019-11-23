@@ -41,7 +41,8 @@ var ROCKET2 = {
   rot : Math.PI/2,
   rotating : false,
   rotspeed : Math.PI/70,
-  power : 0.3
+  power : 0.3,
+  fuel : 500
 };
 var EXPLOSION = {
   currentFrame : 0,
