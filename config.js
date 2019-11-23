@@ -8,7 +8,8 @@ var GAME = {
   death : "",
   level : 5,
   score : 0,
-  highScore : 0
+  highScore : 0,
+  mode : 1
 };
 
 var ROCKET1 = {

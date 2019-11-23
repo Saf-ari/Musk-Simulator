@@ -30,6 +30,23 @@ document.addEventListener('keydown', function(event) {
               GAME.started = true;
             }
             break;
+            case '1':
+            if (!GAME.started){
+              initializeRockets();
+              EXPLOSION.currentFrame = 0;
+              GAME.started = true;
+              GAME.mode = 1;
+            }
+            break;
+            case '2':
+            if (!GAME.started){
+              initializeRockets();
+              EXPLOSION.currentFrame = 0;
+              GAME.started = true;
+              GAME.mode = 2;
+            }
+            break;
+
     default:
       break;
   }
