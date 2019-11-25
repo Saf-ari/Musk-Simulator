@@ -142,7 +142,7 @@ function handleRocketMovement() {
   if
     (checkCollidePlatform())
   {
-    if (ROCKET1.rot<Math.PI/2-0.5 || ROCKET1.rot > Math.PI/2+0.5){
+    if (ROCKET1.rot<Math.PI/2-0.25 || ROCKET1.rot > Math.PI/2+0.25){
       GAME.death = "PLAYER 1 had too much rotation";
       ROCKET1.tipping = true;
       ROCKET1.thrusting = false;
@@ -150,7 +150,7 @@ function handleRocketMovement() {
       GAME.level = GAME.level/2;
       scorePlayerOne = 0;
     }
-    else if(ROCKET1.yvel > 4){
+    else if(ROCKET1.yvel > 2 || Math.abs(ROCKET1.xvel) > 2){
       GAME.death = "PLAYER 1 had too much speed";
       ROCKET1.thrusting = false;
       GAME.started = false;
@@ -234,7 +234,7 @@ function handleRocketMovement2() {
   if
     (checkCollidePlatform2())
   {
-    if (ROCKET2.rot<Math.PI/2-0.5 || ROCKET2.rot > Math.PI/2+0.5){
+    if (ROCKET2.rot<Math.PI/2-0.25 || ROCKET2.rot > Math.PI/2+0.25){
       GAME.death = "PLAYER 2 had too much rotation";
       ROCKET2.tipping = true;
       ROCKET2.thrusting = false;
@@ -242,7 +242,7 @@ function handleRocketMovement2() {
       GAME.level = GAME.level/2;
       scorePlayerTwo = 0;
     }
-    else if(ROCKET2.yvel > 4){
+    else if(ROCKET2.yvel > 2 || Math.abs(ROCKET2.xvel) > 2){
       GAME.death = "PLAYER 2 too much speed";
       ROCKET2.thrusting = false;
       GAME.started = false;
